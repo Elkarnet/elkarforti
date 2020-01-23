@@ -1,0 +1,15 @@
+version: '3.3'
+
+services:
+  web:
+    build: .
+    command: /start.sh
+    volumes:
+      - ./elkarforti:/data/web
+      - ./keys:/etc/elkarforti
+      - ./db:/db
+    env_file: env
+    ports:
+      - "8000:8000"
+
+      

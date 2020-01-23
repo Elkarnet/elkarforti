@@ -1,0 +1,31 @@
+{% extends 'groupaccess/base.html'%}
+
+{% block content %}
+{% if group_list %}
+    <div class="float-left">
+    <ul>
+ 
+   {% for group in group_list %}
+        {% if group.enabled %}
+           <li> {% load static %} <img src="{% static "groupaccess/images/icon-yes.svg" %}" alt="Enabled!" /> <a href="{% url 'groupaccess:fortigroup_update' group.id %}">{{ group.name }}</a></li>
+        {% else %}
+           <li> {% load static %} <img src="{% static "groupaccess/images/icon-no.svg"  %}" alt="Enabled!" /> <a href="{% url 'groupaccess:fortigroup_update' group.id %}">{{ group.name }}</a></li>
+        {% endif %}
+ 
+
+        {% if forloop.counter|divisibleby:4 %}
+            </ul>
+            </div>
+            <div class="float-left">
+            <ul>
+        {% endif %}
+
+    {% endfor %}
+    </ul>
+    </div>
+
+{% else %}
+    <p>No polls are available.</p>
+{% endif %}
+
+{% endblock %}

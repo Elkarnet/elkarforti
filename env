@@ -1,0 +1,11 @@
+LDAP_SERVER_URI=ldap://192.168.1.1:389
+LDAP_BIND_DN=cn=binduser,cn=Users,dc=example,dc=com
+LDAP_BIND_PASSWORD=bindpassword
+LDAP_USER_SEARCH_OU=ou=Users,dc=example,dc=com
+LDAP_USER_SEARCH_FILTER=(&(objectClass=*)(samaccountname=%(user)s))
+LDAP_GROUP_SEARCH=ou=Groups,dc=example,dc=com
+LDAP_REQUIRE_GROUP=cn=FortiAccessGroup,ou=Groups,dc=example,dc=com
+LDAP_FLAG_IS_ACTIVE=cn=FortiAccessGroup,ou=Groups,dc=example,dc=com
+LDAP_FLAG_IS_STAFF=cn=FortiAccessGroup,ou=Groups,dc=example,dc=com
+DB_PATH=/db/db.sqlite3
+
