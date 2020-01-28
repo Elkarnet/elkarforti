@@ -1,5 +1,3 @@
-**BUKATUGABE**
-
 # HELBURUA
 
 Ikastetxe baten kontestuan, irakasleek klaseak ekipo informatikoak dauden geletan ematen dutenean, eta gelako PCak sarera konektaturik daudean, gerta daiteke ikasleek Internet sarean nabigatzen aritzea irakasleak dionari kasurik egin beharrean.
