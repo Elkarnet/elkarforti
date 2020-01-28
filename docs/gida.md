@@ -1,5 +1,25 @@
 **BUKATUGABE**
 
+# HELBURUA
+
+Ikastetxe baten kontestuan, irakasleek klaseak ekipo informatikoak dauden geletan ematen dutenean, eta gelako PCak sarera konektaturik daudean, gerta daiteke ikasleek Internet sarean nabigatzen aritzea irakasleak dionari kasurik egin beharrean.
+Kontestu honetan, interesgarria litzateke irakasleak berak gelako trafikoa baimendu ala ez erabaki ahal izatea, hau da, berak nahi duenean gelako Internet konexioa edo atzipena gaitu eta desgaitu ahal izatea.
+Normalean, Internet konexioa suehesian kudeatzen da, eta irakasle arrunt batek ez du ez ezagutzarik, ezta baimenik, suhesia konfiguratu ahal izateko.
+Aplikazio honen helburua, irakasleei lan hori erraztea da. Web interfaze minimalista bat eskura jarri, non klik batekin ikasgela bateko Internet atzipena gaitu eta desgaitu ahal izango duen.
+Hau egin ahal izateko, sistemak erabiltzaile eta pasahitza eskatuko dio, eta baimendutako erabiltzaileek bakarrik kudeatu ahal izango dute. Erabiltzaile eta pasahitza txekeatzeko, erakundeak jadanik duen ActiveDirectory edo LDAP-a erabiliko dira.
+
+Suhesi asko daude merkatuan, soluzio hau Fortinet suhesientzat bakarrik diseinatuta dago.
+
+Aurrerago azalduko dugun moduan, Fortinet suhesian aurrez gauzak konfiguratuta izan beharko ditugu:
+1. **Address** edo **Addres Group** motatako objetuak erabiliz, gela bakoitzaren izenarekin gelan dauden ekipoen IP helbideak.
+2. Beti nabigazioa baimenduta izango duen **Address** edo **Address Group** motatako objetu bat. Hau zergatik ? Ba Fortinet-ek ez duela onartzen hutsik dagoen **Address Group** bat, aurrerago hobeto azalduko dugu.
+3. Lehen puntuan definitu ditugun **Address** edo **Address Group** objetuak bere barnean izango dituen beste **AddresGroup** bat.
+4. Fortinet-en arau bat jarri beharko dugu, hirugarren puntuan definitu dugun **Address Group**-ari Internet nabigazioa debekatzen diona. Hau da, **Address Group** horretan dauden *"ikasgelak"* ezin izango dute nabigatu.
+
+Orain instalatuko dugun aplikazioak hirugarren puntuan definitu dugun **Address Group** hortatik gelak atera eta sartu egingo ditu, eta honela nabigazioa baimendu eta debekatu.
+
+
+# INSTALAZIOA
 
 Docker erabiliko dugu elkarforti martxan jartzeko, beraz suposatzen da hau egin aurretik docker instalatuta duzula.
 Lehenik eta behin git kodea deskargatu
