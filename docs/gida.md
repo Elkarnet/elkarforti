@@ -63,7 +63,7 @@ Suhesiko arauak:
 
 * Suhesian gela hauen izenak **Policy Objects --> Addresses** atalean sortu behar dituzu. Adibidean bezala, IP helbideak jarraian badaude, **Address** moduko objetuak erabili ditzakezu, baina jarraian datozen IPak ez badira, **Address Group** motatako objetuak ere erabili ditzakezu, Elkarforti-k bi motatakoak kudeatu ahal izango ditu. Besterik egin ezean, suhesiak *gela horietako trafikoa baimentzeko konfiguratuta izan beharko zenuke*. 
 
-* Suhesian nabigazioa baimenduta izango duten gelek osatuko duten talde bat sortu behar da, **Address Group** motatakoa. Aurrerago ikusiko dugun **env** fitxategiko **FortiAccessEnabledGroupName** aldagaian sartuko dugun izena izango da.
+* Suhesian nabigazioa baimenduta izango duten gelek osatuko duten talde bat sortu behar da, **Address Group** motatakoa. Aurrerago ikusiko dugun **FortiParameters**-eko **FortiAccessEnabledGroupName** aldagaian sartuko dugun izena izango da.
 
 * Fortinet suhesiak ez du onartzen talde bat hutsik egotea. Une baten gela guzietako nabigazioa debekatu nahiko balitz, **FortiAccessEnabledGroupName** hutsik egon beharko litzake, baina Fortinet-ek ez luke onartuko. Hau konpontzeko, beste **Address** edo **Address Group** bat behar dugu, **FortiAccessEnabledGroupName** beti egongo dena. Adibide moduan, **Address** objetu bat sortu dezakezu Fortinet-eko IParekin, edo bestela beti nabigazioa baimenduta izango duen zure sareko beste IP batekin.
 
