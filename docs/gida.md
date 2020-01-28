@@ -112,7 +112,7 @@ Jarri dezagun berrio martxan: `sudo docker-compose up`
  * edo AD/LDAP-aren kontra balidatzen da 
  * edo bestela admin erabiltzaile lokalarekin 
  
- Gela batek Internet atzipena debekatuta duenea, ikono gorri batekin azalduko da, eta baimenduta duenean ikono berde batekin. 
+ Gela batek Internet atzipena debekatuta duenean, ikono gorri batekin azalduko da, eta baimenduta duenean ikono berde batekin. 
  
  Egoera aldateko, gainean klikatu, eta agertuko den formularioan egoera aldatu, besterik ez.
  
