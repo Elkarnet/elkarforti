@@ -21,7 +21,7 @@ Orain instalatuko dugun aplikazioak hirugarren puntuan definitu dugun **Address 
 
 # Instalazioa eta prestaketa lanak
 
-Docker erabiliko dugu elkarforti martxan jartzeko, beraz suposatzen da hau egin aurretik docker instalatuta duzula.
+Docker erabiliko dugu elkarforti martxan jartzeko, beraz suposatzen da hau egin aurretik docker [instalatuta duzula](https://docs.docker.com/install/linux/docker-ce/ubuntu/).
 Lehenik eta behin git kodea deskargatu
 
 `git clone https://github.com/Elkarnet/elkarforti.git`
