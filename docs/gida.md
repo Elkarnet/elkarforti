@@ -61,7 +61,7 @@ Elkarforti erabili ahal izateko, Fortinet suhesi bat izan behar duzu. Demagun ik
 
 Suhesiko arauak:
 
-* Suhesian gela hauen izenak **Policy Objects --> Addresses** atalean sortu behar dituzu. Adibidean bezala, IP helbideak jarraian badaude, **Address** moduko objetuak erabili ditzakezu, baina jarraian datozen IPak ez badira, **Address Group** motatako objetuak ere erabili ditzakezu, Elkarforti-k bi motatakoak kudeatu ahal izango ditu. Besterik egin ezean, suhesiak *gela horietako trafikoa debekatzeko konfiguratuta izan beharko zenuke*. 
+* Suhesian gela hauen izenak **Policy Objects --> Addresses** atalean sortu behar dituzu. Adibidean bezala, IP helbideak jarraian badaude, **Address** moduko objetuak erabili ditzakezu, baina jarraian datozen IPak ez badira, **Address Group** motatako objetuak ere erabili ditzakezu, Elkarforti-k bi motatakoak kudeatu ahal izango ditu. Besterik egin ezean, suhesiak *gela horietako trafikoa baimentzako konfiguratuta izan beharko zenuke*. 
 
 * Suhesian nabigazioa baimenduta izango duten gelek osatuko duten talde bat sortu behar da, **Address Group** motatakoa. Aurrerago ikusiko dugun **env** fitxategiko **FortiAccessEnabledGroupName** aldagaian sartuko dugun izena izango da.
 
