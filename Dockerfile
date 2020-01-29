@@ -8,8 +8,8 @@ RUN mkdir -p /data/web
 WORKDIR /data
 COPY requirements.txt /data/
 
-COPY start.sh /
-RUN chmod +x /start.sh
+COPY entrypoint.sh /
+RUN chmod +x /entrypoint.sh
 
 
 # Setup
@@ -23,4 +23,4 @@ RUN pip3 install -r requirements.txt
 
 WORKDIR /data/web
 
-
+ENTRYPOINT ["/entrypoint.sh"]
