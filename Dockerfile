@@ -2,15 +2,8 @@ FROM alpine
 
 MAINTAINER parreitu@protonmail.com
 
-# Initialize
-RUN mkdir -p /data/web
-
-WORKDIR /data
-COPY requirements.txt /data/
-
-COPY entrypoint.sh /
-RUN chmod +x /entrypoint.sh
-
+COPY elkarforti /data/web
+COPY entrypoint.sh requirements.txt /
 
 # Setup
 RUN apk update
