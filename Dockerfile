@@ -2,10 +2,8 @@ FROM alpine
 
 MAINTAINER parreitu@protonmail.com
 
-COPY elkarforti /data/web
-COPY entrypoint.sh requirements.txt /
-
-# Setup
+# Install required packages
+COPY requirements.txt /
 RUN apk add --no-cache \
     python3 \
     python3-dev \
@@ -15,10 +13,10 @@ RUN apk add --no-cache \
     sqlite \
     sqlite-dev \
   && pip3 install --upgrade pip \
-  && pip3 install -r requirements.txt 
+  && pip3 install -r requirements.txt
 
-WORKDIR /data/web
+COPY elkarforti /data/web
+COPY entrypoint.sh /
 
 ENTRYPOINT ["/entrypoint.sh"]
-
 EXPOSE 8000
