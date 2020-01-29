@@ -7,7 +7,6 @@ COPY entrypoint.sh requirements.txt /
 
 # Setup
 RUN apk update
-RUN apk upgrade
 RUN apk add --update python3 python3-dev build-base nano openldap-dev sqlite sqlite-dev
 
 RUN pip3 install --upgrade pip
