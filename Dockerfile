@@ -24,3 +24,5 @@ RUN pip3 install -r requirements.txt
 WORKDIR /data/web
 
 ENTRYPOINT ["/entrypoint.sh"]
+
+EXPOSE 8000
