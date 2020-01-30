@@ -1,6 +1,3 @@
-from groupaccess.models import FortiGroup
-FortiGroup.objects.all().update(enabled=True)
-
 from django.core.management.base import BaseCommand, CommandError
 from groupaccess.models import FortiGroup
 
