@@ -72,8 +72,8 @@ class FortiParameters(models.Model):
         cipher = AES.new(key_from_file, AES.MODE_CFB, iv=iv)
         original_data = cipher.decrypt(ciphered_data)
         original_data = original_data.decode('utf8')
-        print('------------ ORIGINAL PASS -----------------')
-        print(original_data)
+        # print('------------ ORIGINAL PASS -----------------')
+        # print(original_data)
         return original_data
 
 
@@ -108,7 +108,7 @@ class FortiGroup(models.Model):
         for group in all_enabled_groups:
             dict_gela = {'name':group.name}
             payload_list.append(dict_gela)
-            print("payload_list: ", payload_list)
+            # print("payload_list: ", payload_list)
 
         payload = "{{'member': {} }}".format(payload_list)
         device.update_address_group(parameters.fortiAccessEnabledGroupName, payload)
