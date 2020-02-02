@@ -24,9 +24,6 @@ class FortiParameters(models.Model):
     fortiDefaultGroupName = models.CharField(max_length=32)
     fortiAccessEnabledGroupName = models.CharField(max_length=32)
     fortiKeyStorePath = models.CharField(max_length=128,default="/etc/elkarforti/")
-    automaticOpenClose = models.BooleanField(default=True)
-    automaticOpenTime = models.TimeField(default = "15:00" )
-    automaticCloseTime = models.TimeField(default = "22:00" )
 
     def save(self, *args, **kwargs):
         data = self.fortiPassword.encode('utf8')
