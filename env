@@ -8,4 +8,9 @@ LDAP_REQUIRE_GROUP=cn=FortiAccessGroup,ou=Groups,dc=example,dc=com
 LDAP_FLAG_IS_ACTIVE=cn=FortiAccessGroup,ou=Groups,dc=example,dc=com
 LDAP_FLAG_IS_STAFF=cn=FortiAccessGroup,ou=Groups,dc=example,dc=com
 DB_PATH=/db/db.sqlite3
+AUTO_OPEN_CLOSE=1
+AUTO_OPEN_HOUR=15
+AUTO_OPEN_MIN=0
+AUTO_CLOSE_HOUR=7
+AUTO_CLOSE_MIN=30
 

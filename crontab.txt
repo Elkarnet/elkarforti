@@ -1,0 +1,4 @@
+CloseMin CloseHour  *  *  *   /disable-all-rooms.sh >> /var/log/rooms.log
+OpenMin  OpenHour  *  *  *   /enable-all-rooms.sh >> /var/log/rooms.log
+
+

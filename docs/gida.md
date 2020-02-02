@@ -47,8 +47,10 @@ Bi erabiltzaile mota ditugu:
 Erabiltzaile hauen kredentzialak LDAP/AD batetik hartuko dira, eta horretarako elkarforti karpetan dagoen **env** fitxategian dauden **aldagaiak** aldatu behar dira. Ohiko parametroak dira, eta bereziki hauek aipatuko ditugu:
  * LDAP_REQUIRE_GROUP: Elkarforti-ko taldeen kudeaketa egin ahal izango duten erabiltzaileen taldea
  * LDAP_FLAG_IS_ACTIVE: Login eta eta automatikoki Elkarforti-n aktibo egongo diren erabiltzaileen taldea.
+ * AUTO_OPEN_CLOSE: Bi balio posible ditu, 1 eta 0. Balioa 1 denean, talde guztietako nabigazioa baimenduko da AUTO_OPEN_HOUR:AUTO_OPEN_MIN-etan, eta era berean debekatuko da AUTO_CLOSE_HOUR:AUTO_CLOSE_MIN-etan.
+
  
-Bi talde hauetan oraingoz behintzat jarri kudeaketa baimenak izango dituzten erabiltzaileen taldea. Balio lehenetsi moduan **FortiAccessGroup** agertzen den arren, bakoitzak bere erakundeko talde izen bat jarri beharko du.
+LDAP_REQUIRE_GROUP eta LDAP_FLAG_IS_ACTIVE taldeetan jarri kudeaketa baimenak izango dituzten erabiltzaileen taldea. Balio lehenetsi moduan **FortiAccessGroup** agertzen den arren, bakoitzak bere erakundeko talde izen bat jarri beharko du.
 
 ## Fortinet suhesia prestatu
 Elkarforti erabili ahal izateko, Fortinet suhesi bat izan behar duzu. Demagun ikastetxe batean ari zarela hau erabiltzen, eta ikasgeletako Internet atzipena irakasle bakoitzak kudeatu ahal izatea nahi duzula. Demagun Gela01, Gela02, Gela03 eta Gela04 direla kudeatu nahi dituzun gelen nabigazioa. Gela hauetako bakoitzean 10 ordenagailu dituzu, eta beraien IP helbideak ezagutzen dituzu, demagun hauek direla:
@@ -88,9 +90,6 @@ Jarri dezagun berrio martxan: `sudo docker-compose up`
 * FortiAccessEnabledGroupName: Aurrez azaldu den moduan, hemen jarri behar duzu Fortinet suhesian aurrez sortu duzun eta barruan baimendutako gelen izena izango duen  **Address Group** objetuaren izena.
 * FortiDefaultGroupName: Aurrez azaldu den moduan, hemen jarri behar duzu Fortinet suhesian aurrez sortuta duzun eta Internet atzipena **beti baimenduta** izango duen **Address** edo **Address Group** objetuaren izena.
 * FortiKeyStorePath: Fortinet suhesia kudeatzeko baimenak dituen erabiltzaile izena eta bere pasahitza behar dugunez, ondo zaindu behar ditugu. Horretarako pasahitza zifratu eta Docker irudiak irakurri eta idatzi ahal izango duen karpeta baten barruan jarriko dugu. Karpeta hori zein izango den guk erabaki dezakegu, balio lehenetsia `/etc/elkarforti` da. Aldatzen baduzu, gogoratu docker-compose.yml fitxategian ere keys bolumena ere aldatu beharko duzula.
-* AutomaticOpenClose: Oraindik ez du ezer egiten. Aurrerantzen, parametro honen balioa erabiliko da ordu jakin batean gelen egoera automatikoki aldatu behar den erabakitzeko.
-* automaticOpenTime: Oraindik ez du ezer egiten. Aurrerantzean, AutomaticOpenClose balioa baiezkoa bada, aldagai honetan ezarritako orduan gela deneri nabigazioa baimenduko zaie.
-* automaticCloseTime: Oraindik ez du ezer egiten. Aurrerantzean, AutomaticOpenClose balioa baiezkoa bada, aldagai honetan ezarritako orduan gela deneri nabigazioa debekatuko zaie.
  
  Datuak sartu ondoren, konfigurazio erregistroa gorde.
  
