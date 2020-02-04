@@ -184,7 +184,7 @@ Lehenik eta behin definituta dugun docker sarea sortuko dugu: `sudo docker netwo
 Traefik kontsolan sartu ahal izateko erabiltzailea eta pasahitza eskatuko ditugu. Komentarioak kendu ditugun lehen blokean, lerro hau dago, eta hor definitzen ari gara erabiltzaile eta pasahitz bat.
 `"traefik.http.middlewares.traefik-auth.basicauth.users=USER:$$apr1$$CNYr26tI$$pcrqE43c3xFqSpEA/GWIm."`
 
-Kasu honetan erabiltzaile **USER** da eta pasahitza **PASSWORD**. Hau nola ez, aldatu beharko zenuke. Pasahitza [Apache htpasswd](https://httpd.apache.org/docs/2.4/programs/htpasswd.html) formatuan egon behar denez, htppasswd komando erabiliko dugu pasahitz enkriptatua sortzeko. Zure sisteman komando ha ez balego, honela instalatu ahal izango duzu: `sudo apt install apache2-utils`
+Kasu honetan erabiltzaile **USER** da eta pasahitza **PASSWORD**. Hau nola ez, aldatu beharko zenuke. Pasahitza [Apache htpasswd](https://httpd.apache.org/docs/2.4/programs/htpasswd.html) formatuan egon behar denez, htppasswd komando erabiliko dugu pasahitz enkriptatua sortzeko. Zure sisteman komando hau ez balego, honela instalatu ahal izango duzu: `sudo apt install apache2-utils`
 
 Demagun jarri nahi duzun erabiltzaile eta pasahitza hauek direla:
 * Erabiltzailea: NireErabiltzailea
@@ -196,10 +196,9 @@ Komandoak honen antzerako lerro bat bueltatuko dizu: **NireErabiltzailea:$$apr1$
 
 Emaitza kopiatu eta docker-kompose.yml-ko *traefik.http.middlewares.traefik-auth.basicauth.users* aldagaian itsatsi beharko duzu.
 
-Hortaz gain 
-* **traefik/data/traefik.yml** fitxategiko **email** aldagaian, zure posta helbidea jarri beharko duzu. 
+Hortaz gain  **traefik/data/traefik.yml** fitxategiko **email** aldagaian, zure posta helbidea jarri beharko duzu. 
 
-Gero **env** fitxategian **ALLOWED_HOSTS** aldagaian web bidez sartuko duzun domeinu izena jarri beharko dezu. Adibidez gelak.niredomeinua.eus
+Gero **env** fitxategian **ALLOWED_HOSTS** aldagaian gelak kudeatzeko web bidez sartuko duzun domeinu izena jarri beharko dezu. Adibidez **gelak.niredomeinua.eus**
 
 docker-compose.yml fitxategian *traefik.mydomain.eus* bi lekutan agertzen da. Saiatu naiz hau env aldagai baten bitartez (*TRAEFIK_HOST*) konfiguratzea, baina oraingoz ez dut lortu, beraz eskuz aldatu beharko duzu. Hor jarri beharko duzu traefik web interfazera sartzeko erabiliko duzun dns izena.
 
@@ -207,5 +206,5 @@ Hau dena egin ondoren, jarri berriro martxan `sudo docker-compose up` komandoare
 * env fitxategian *ALLOWED_HOSTS* aldagaian jarri duzun balioa (adibidean gelak.niredomeinua.eus) sartu web nabigatzailean, eta horrek eramango zaitu elkarforti aplikaziora
 * docker-compose.yml fitxategian *traefik.mydomain.eus* zegoen lekuan jarri duzun helbidea sartu nabigatzailean, eta konfiguratu duzun erabiltzaile eta pasahitzarekin (adibidean NireErabiltzailea eta NirePasahitza) traefik interfazean sartuko zara
 
-Posible baduzu docker exekutatzen den zerbitzaria Internet sarean jartzea http/https eskaerei erantzuten DNS-etan dagoen izen bati erantzuten (gelak.niredomeinua.eus), Traefik-ek berak letsencrypt ziurtagiria deskargatu eta instalatuko dizu, baina hau beste burruka bat da ....
+Posible baduzu docker exekutatzen den zerbitzaria Internet sarean jartzea http/https eskaerei konfiguratu duzun DNS izenari erantzuten (gelak.niredomeinua.eus), Traefik-ek berak letsencrypt ziurtagiria deskargatu eta instalatuko dizu
 
