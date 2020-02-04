@@ -60,6 +60,8 @@ if 'LDAP_BIND_DN' in os.environ:
         }
     }
 
+    ALLOWED_HOSTS = [os.environ['ALLOWED_HOSTS'], '127.0.0.1']
+
 
 
 else:
@@ -98,9 +100,10 @@ else:
         }
     }
 
+    ALLOWED_HOSTS = []
 
-    
- 
+
+
 
 AUTH_LDAP_GROUP_TYPE = GroupOfNamesType(name_attr="cn")
 
@@ -137,7 +140,6 @@ except ImportError:
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-ALLOWED_HOSTS = []
 
 
 # Application definition

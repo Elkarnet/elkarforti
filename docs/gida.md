@@ -33,7 +33,7 @@ Honek elkarforti izeneko karpeta bat sortu dizu. Sartu barruan eta bi karpeta be
 * **db**: Karpeta honetan gordeko da sqlite datubasea
 * **keys**: Karpeta honetan gordeko dira erabiliko diren gako zifratuak
 
-Orain docker irudia sortuko dugu: `sudo docker-compose build`
+Docker irudia sortuko dugu: `sudo docker-compose build`
 
 Irudia sortu ondoren, berriro ere docker erabiliko dugu, oraingoan martxan jartzeko: `sudo docker-compose up`
 
@@ -59,7 +59,7 @@ Elkarforti erabili ahal izateko, Fortinet suhesi bat izan behar duzu. Demagun ik
 * Gela03: 192.168.10.30 - 192.168.10.39
 * Gela04: 192.168.10.40 - 192.168.10.49
 
-Suhesiko arauak:
+Fortinet suhesiko arauak:
 
 * Suhesian gela hauen izenak **Policy Objects --> Addresses** atalean sortu behar dituzu. Adibidean bezala, IP helbideak jarraian badaude, **Address** moduko objetuak erabili ditzakezu, baina jarraian datozen IPak ez badira, **Address Group** motatako objetuak ere erabili ditzakezu, Elkarforti-k bi motatakoak kudeatu ahal izango ditu. Besterik egin ezean, suhesiak *gela horietako trafikoa baimentzeko konfiguratuta izan beharko zenuke*. 
 
@@ -114,4 +114,98 @@ Jarri dezagun berrio martxan: `sudo docker-compose up`
  Egoera aldateko, gainean klikatu, eta agertuko den formularioan egoera aldatu, besterik ez.
  
  
- 
+# TRAEFIK integrazioa
+
+Orain artekoa ondo joan bada, 127.0.0.1 helbidean izango dugu ElkarForti lanean, baina horrela ezin izango dugu gure ikastetxeko PC-etatik kudeatu, 127.0.0.1 IP lokala baita. Guk saretik kudeatu nahi izango dugu.
+
+Honetarako aukera ezberdinak daude, gu docker erabiltzen ari garenez, hemen [Traefik](https://containo.us/traefik/) proxy-arekin uztartuko dugu. Konturatuko zineten docker-compose.yml fitxategian hainbat lerro komentaturik daudela, orain bi bloke hauetako lerro hasierako # karakterea kenduko ditugu.
+
+Lehena
+
+```
+#  traefik:
+#    image: traefik:v2.0
+#    container_name: traefik
+#    restart: unless-stopped
+#    security_opt:
+#      - no-new-privileges:true
+#    networks:
+#      - proxy
+#    ports:
+#      - 80:80
+#      - 443:443
+#    volumes:
+#      - /etc/localtime:/etc/localtime:ro
+#      - /var/run/docker.sock:/var/run/docker.sock:ro
+#      - ./traefik/data/traefik.yml:/traefik.yml:ro
+#      - ./traefik/data/acme.json:/acme.json
+#    labels:
+#      - "traefik.enable=true"
+#      - "traefik.http.routers.traefik.entrypoints=http"
+#      - "traefik.http.routers.traefik.rule=Host(`traefik.mydomain.eus`)"
+#      - "traefik.http.middlewares.traefik-auth.basicauth.users=USER:$$apr1$$CNYr26tI$$pcrqE43c3xFqSpEA/GWIm."
+#      - "traefik.http.middlewares.traefik-https-redirect.redirectscheme.scheme=https"
+#      - "traefik.http.routers.traefik.middlewares=traefik-https-redirect"
+#      - "traefik.http.routers.traefik-secure.entrypoints=https"
+#      - "traefik.http.routers.traefik-secure.rule=Host(`traefik.mydomain.eus`)"
+#      - "traefik.http.routers.traefik-secure.middlewares=traefik-auth"
+#      - "traefik.http.routers.traefik-secure.tls=true"
+#      - "traefik.http.routers.traefik-secure.tls.certresolver=http"
+#      - "traefik.http.routers.traefik-secure.service=api@internal"
+
+```
+eta bigarrena **web** zerbitzuaren labels atala
+
+```
+#    networks:
+#      - proxy
+#    labels:
+#      - "traefik.enable=true"
+#      - "traefik.http.routers.elkarforti.entrypoints=http"
+#      - "traefik.http.routers.elkarforti.rule=Host(`${ALLOWED_HOSTS}`)"
+#      - "traefik.http.middlewares.elkarforti-https-redirect.redirectscheme.scheme=https"
+#      - "traefik.http.routers.elkarforti.middlewares=elkarforti-https-redirect"
+#      - "traefik.http.routers.elkarforti-secure.entrypoints=https"
+#      - "traefik.http.routers.elkarforti-secure.rule=Host(`${ALLOWED_HOSTS}`)"
+#      - "traefik.http.routers.elkarforti-secure.tls=true"
+#      - "traefik.http.routers.elkarforti-secure.tls.certresolver=http"
+#      - "traefik.http.routers.elkarforti-secure.service=elkarforti"
+#      - "traefik.http.services.elkarforti.loadbalancer.server.port=8000"
+#      - "traefik.docker.network=proxy"      
+#networks:
+#  proxy:
+#    external: true
+
+
+```
+
+Lehenik eta behin definituta dugun docker sarea sortuko dugu: `sudo docker network create proxy` 
+
+Traefik kontsolan sartu ahal izateko erabiltzailea eta pasahitza eskatuko ditugu. Komentarioak kendu ditugun lehen blokean, lerro hau dago, eta hor definitzen ari gara erabiltzaile eta pasahitz bat.
+`"traefik.http.middlewares.traefik-auth.basicauth.users=USER:$$apr1$$CNYr26tI$$pcrqE43c3xFqSpEA/GWIm."`
+
+Kasu honetan erabiltzaile **USER** da eta pasahitza **PASSWORD**. Hau nola ez, aldatu beharko zenuke. Pasahitza [Apache htpasswd](https://httpd.apache.org/docs/2.4/programs/htpasswd.html) formatuan egon behar denez, htppasswd komando erabiliko dugu pasahitz enkriptatua sortzeko. Zure sisteman komando ha ez balego, honela instalatu ahal izango duzu: `sudo apt install apache2-utils`
+
+Demagun jarri nahi duzun erabiltzaile eta pasahitza hauek direla:
+* Erabiltzailea: NireErabiltzailea
+* Pasahitza: NirePasahitza
+
+Hau da exekutatu beharko duzun komandoa: `htpasswd -nb NireErabiltzailea NirePasahitza | sed -e 's/\$/\$\$/g'`
+
+Komandoak honen antzerako lerro bat bueltatuko dizu: **NireErabiltzailea:$$apr1$$yLXjGhVr$$Za.frHbHn3DptHT1udmZt.**
+
+Emaitza kopiatu eta docker-kompose.yml-ko *traefik.http.middlewares.traefik-auth.basicauth.users* aldagaian itsatsi beharko duzu.
+
+Hortaz gain 
+* **traefik/data/traefik.yml** fitxategiko **email** aldagaian, zure posta helbidea jarri beharko duzu. 
+
+Gero **env** fitxategian **ALLOWED_HOSTS** aldagaian web bidez sartuko duzun domeinu izena jarri beharko dezu. Adibidez gelak.niredomeinua.eus
+
+docker-compose.yml fitxategian *traefik.mydomain.eus* bi lekutan agertzen da. Saiatu naiz hau env aldagai baten bitartez (*TRAEFIK_HOST*) konfiguratzea, baina oraingoz ez dut lortu, beraz eskuz aldatu beharko duzu. Hor jarri beharko duzu traefik web interfazera sartzeko erabiliko duzun dns izena.
+
+Hau dena egin ondoren, jarri berriro martxan `sudo docker-compose up` komandoaren bidez, eta oraingoan:
+* env fitxategian *ALLOWED_HOSTS* aldagaian jarri duzun balioa (adibidean gelak.niredomeinua.eus) sartu web nabigatzailean, eta horrek eramango zaitu elkarforti aplikaziora
+* docker-compose.yml fitxategian *traefik.mydomain.eus* zegoen lekuan jarri duzun helbidea sartu nabigatzailean, eta konfiguratu duzun erabiltzaile eta pasahitzarekin (adibidean NireErabiltzailea eta NirePasahitza) traefik interfazean sartuko zara
+
+Posible baduzu docker exekutatzen den zerbitzaria Internet sarean jartzea http/https eskaerei erantzuten DNS-etan dagoen izen bati erantzuten (gelak.niredomeinua.eus), Traefik-ek berak letsencrypt ziurtagiria deskargatu eta instalatuko dizu, baina hau beste burruka bat da ....
+
