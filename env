@@ -14,3 +14,5 @@ AUTO_OPEN_MIN=0
 AUTO_CLOSE_HOUR=7
 AUTO_CLOSE_MIN=30
 TZ=Europe/Madrid
+ALLOWED_HOSTS=groups.mydomain.eus
+TRAEFIK_HOST=traefik.mydomain.eus
