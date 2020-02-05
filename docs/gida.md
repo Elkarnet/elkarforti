@@ -116,9 +116,11 @@ Jarri dezagun berrio martxan: `sudo docker-compose up`
  
 # TRAEFIK integrazioa
 
-Orain artekoa ondo joan bada, 127.0.0.1 helbidean izango dugu ElkarForti lanean, baina horrela ezin izango dugu gure ikastetxeko PC-etatik kudeatu, 127.0.0.1 IP lokala baita. Guk saretik kudeatu nahi izango dugu.
+Orain artekoa ondo joan bada, 127.0.0.1 helbidean izango dugu ElkarForti lanean. 
 
-Honetarako aukera ezberdinak daude, gu docker erabiltzen ari garenez, hemen [Traefik](https://containo.us/traefik/) proxy-arekin uztartuko dugu. Konturatuko zineten docker-compose.yml fitxategian hainbat lerro komentaturik daudela, orain bi bloke hauetako lerro hasierako # karakterea kenduko ditugu.
+Orain [Traefik](https://containo.us/traefik/) proxy-arekin uztartuko dugu, eta horrela etorkizunean beste mikro-zerbitzu batzuk zerbitzari berean jartzeko aukera izango dugu. Docker jarri dugun zerbitzariak IP bakarra izango du, baina Traefik-en lana izango da heltzen den eskaera bakoitza dagokion docker irudira bideratzea.
+
+Konturatuko zineten docker-compose.yml fitxategian hainbat lerro komentaturik daudela, orain bi bloke hauetako lerro hasierako # karakterea kenduko ditugu.
 
 Lehena
 
