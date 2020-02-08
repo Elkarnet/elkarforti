@@ -118,11 +118,10 @@ Jarri dezagun berrio martxan: `sudo docker-compose up`
 
 Orain artekoa ondo joan bada, 127.0.0.1 helbidean izango dugu ElkarForti lanean. 
 
-Orain [Traefik](https://containo.us/traefik/) proxy-arekin uztartuko dugu, eta horrela etorkizunean beste mikro-zerbitzu batzuk zerbitzari berean jartzeko aukera izango dugu. Docker jarri dugun zerbitzariak IP bakarra izango du, baina Traefik-en lana izango da heltzen den eskaera bakoitza dagokion docker irudira bideratzea.
+Orain [Traefik](https://containo.us/traefik/) proxy-arekin uztartuko dugu, eta horrela etorkizunean beste mikro-zerbitzu batzuk zerbitzari berean jartzeko aukera izango dugu. Docker jarri dugun zerbitzariak IP bakarra izango du, baina Traefik-en lana izango da heltzen den eskaera bakoitza dagokion docker irudira bideratzea. Hortaz gain, sortuko diren web zerbitzuetarako *letsencrypt* ziurtagiriak automatikoki sortzeko aukera izango dugu.
 
-Konturatuko zineten docker-compose.yml fitxategian hainbat lerro komentaturik daudela, orain bi bloke hauetako lerro hasierako # karakterea kenduko ditugu.
+Konturatuko zineten docker-compose.yml fitxategian hainbat lerro komentaturik daudela, bloke hontako lerro hasierako # karakterea kenduko dugu.
 
-Lehena
 
 ```
 #  traefik:
@@ -131,82 +130,67 @@ Lehena
 #    restart: unless-stopped
 #    security_opt:
 #      - no-new-privileges:true
-#    networks:
-#      - proxy
+#    command:
+##      - "--log.level=DEBUG"
+#      - "--api.insecure=true"
+#      - "--providers.docker=true"
+#      - "--providers.docker.exposedbydefault=false"
+#      - "--entrypoints.web.address=:80"
+#      - "--entrypoints.websecure.address=:443"
+#      - "--certificatesresolvers.mytlschallenge.acme.tlschallenge=true"
+#      - "--certificatesresolvers.mytlschallenge.acme.email=myname@mydomain.eus"
+#      - "--certificatesresolvers.mytlschallenge.acme.storage=/letsencrypt/acme.json"
+
 #    ports:
-#      - 80:80
-#      - 443:443
+#      - "80:80"
+#      - "443:443"
+#      - "8080:8080"
 #    volumes:
 #      - /etc/localtime:/etc/localtime:ro
-#      - /var/run/docker.sock:/var/run/docker.sock:ro
-#      - ./traefik/data/traefik.yml:/traefik.yml:ro
-#      - ./traefik/data/acme.json:/acme.json
-#    labels:
-#      - "traefik.enable=true"
-#      - "traefik.http.routers.traefik.entrypoints=http"
-#      - "traefik.http.routers.traefik.rule=Host(`traefik.mydomain.eus`)"
-#      - "traefik.http.middlewares.traefik-auth.basicauth.users=USER:$$apr1$$CNYr26tI$$pcrqE43c3xFqSpEA/GWIm."
-#      - "traefik.http.middlewares.traefik-https-redirect.redirectscheme.scheme=https"
-#      - "traefik.http.routers.traefik.middlewares=traefik-https-redirect"
-#      - "traefik.http.routers.traefik-secure.entrypoints=https"
-#      - "traefik.http.routers.traefik-secure.rule=Host(`traefik.mydomain.eus`)"
-#      - "traefik.http.routers.traefik-secure.middlewares=traefik-auth"
-#      - "traefik.http.routers.traefik-secure.tls=true"
-#      - "traefik.http.routers.traefik-secure.tls.certresolver=http"
-#      - "traefik.http.routers.traefik-secure.service=api@internal"
-
-```
-eta bigarrena **web** zerbitzuaren labels atala
-
-```
-#    networks:
-#      - proxy
-#    labels:
-#      - "traefik.enable=true"
-#      - "traefik.http.routers.elkarforti.entrypoints=http"
-#      - "traefik.http.routers.elkarforti.rule=Host(`${ALLOWED_HOSTS}`)"
-#      - "traefik.http.middlewares.elkarforti-https-redirect.redirectscheme.scheme=https"
-#      - "traefik.http.routers.elkarforti.middlewares=elkarforti-https-redirect"
-#      - "traefik.http.routers.elkarforti-secure.entrypoints=https"
-#      - "traefik.http.routers.elkarforti-secure.rule=Host(`${ALLOWED_HOSTS}`)"
-#      - "traefik.http.routers.elkarforti-secure.tls=true"
-#      - "traefik.http.routers.elkarforti-secure.tls.certresolver=http"
-#      - "traefik.http.routers.elkarforti-secure.service=elkarforti"
-#      - "traefik.http.services.elkarforti.loadbalancer.server.port=8000"
-#      - "traefik.docker.network=proxy"      
-#networks:
-#  proxy:
-#    external: true
-
+#      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+#      - ./letsencrypt:/letsencrypt
 
 ```
 
-Lehenik eta behin definituta dugun docker sarea sortuko dugu: `sudo docker network create proxy` 
+Gogoan izan **myname@mydomain.eus** posta helbidea zure helbidearekin ordeztu beharko duzula. Letsencrypt mezuak helbide horretan jasoko dira.
 
-Traefik kontsolan sartu ahal izateko erabiltzailea eta pasahitza eskatuko ditugu. Komentarioak kendu ditugun lehen blokean, lerro hau dago, eta hor definitzen ari gara erabiltzaile eta pasahitz bat.
-`"traefik.http.middlewares.traefik-auth.basicauth.users=USER:$$apr1$$CNYr26tI$$pcrqE43c3xFqSpEA/GWIm."`
+Bigarren blokearekin hasi aurretik, nabarmendu nahiko nuke enkriptazioa erabiltzearen garrantzia. Kontutan izan erabiltzaileek beraien pasahitza sartuko dutela web interfazean, beraz oso garrantzitsua dela informazio hori enkriptatua egotea.
 
-Kasu honetan erabiltzaile **USER** da eta pasahitza **PASSWORD**. Hau nola ez, aldatu beharko zenuke. Pasahitza [Apache htpasswd](https://httpd.apache.org/docs/2.4/programs/htpasswd.html) formatuan egon behar denez, htppasswd komando erabiliko dugu pasahitz enkriptatua sortzeko. Zure sisteman komando hau ez balego, honela instalatu ahal izango duzu: `sudo apt install apache2-utils`
+Hau dela eta, lehen aukera **https** erabiltzea izango da. Adibide honetan, letsencrypt ziurtagiria automatikoki sortuko da
 
-Demagun jarri nahi duzun erabiltzaile eta pasahitza hauek direla:
-* Erabiltzailea: NireErabiltzailea
-* Pasahitza: NirePasahitza
+```
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.web_router_https.rule=Host(`${ALLOWED_HOSTS}`)"
+#      - "traefik.http.routers.web_router_https.entrypoints=web"
+      - "traefik.http.routers.web_router_https.entrypoints=websecure"
+      - "traefik.http.routers.web_router_https.tls.certresolver=mytlschallenge"
+#      # Enable http --> https redirect
+      - "traefik.http.routers.web_router_http.rule=Host(`${ALLOWED_HOSTS}`)"
+      - "traefik.http.middlewares.https_redirect.redirectscheme.scheme=https"
+      - "traefik.http.routers.web_router_http.middlewares=https_redirect"
 
-Hau da exekutatu beharko duzun komandoa: `htpasswd -nb NireErabiltzailea NirePasahitza | sed -e 's/\$/\$\$/g'`
+```
 
-Komandoak honen antzerako lerro bat bueltatuko dizu: **NireErabiltzailea:$$apr1$$yLXjGhVr$$Za.frHbHn3DptHT1udmZt.**
+Arrazoiren batengatik **http** erabiltzea erabaki baduzu, bloke hau honela egon beharko litzateke
 
-Emaitza kopiatu eta docker-kompose.yml-ko *traefik.http.middlewares.traefik-auth.basicauth.users* aldagaian itsatsi beharko duzu.
+```
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.web_router_https.rule=Host(`${ALLOWED_HOSTS}`)"
+      - "traefik.http.routers.web_router_https.entrypoints=web"
+#      - "traefik.http.routers.web_router_https.entrypoints=websecure"
+#      - "traefik.http.routers.web_router_https.tls.certresolver=mytlschallenge"
+##      # Enable http --> https redirect
+#      - "traefik.http.routers.web_router_http.rule=Host(`${ALLOWED_HOSTS}`)"
+#      - "traefik.http.middlewares.https_redirect.redirectscheme.scheme=https"
+#      - "traefik.http.routers.web_router_http.middlewares=https_redirect"
 
-Hortaz gain  **traefik/data/traefik.yml** fitxategiko **email** aldagaian, zure posta helbidea jarri beharko duzu. 
+```
 
 Gero **env** fitxategian **ALLOWED_HOSTS** aldagaian gelak kudeatzeko web bidez sartuko duzun domeinu izena jarri beharko dezu. Adibidez **gelak.niredomeinua.eus**
 
-docker-compose.yml fitxategian *traefik.mydomain.eus* bi lekutan agertzen da. Saiatu naiz hau env aldagai baten bitartez (*TRAEFIK_HOST*) konfiguratzea, baina oraingoz ez dut lortu, beraz eskuz aldatu beharko duzu. Hor jarri beharko duzu traefik web interfazera sartzeko erabiliko duzun dns izena.
-
 Hau dena egin ondoren, jarri berriro martxan `sudo docker-compose up` komandoaren bidez, eta oraingoan:
 * env fitxategian *ALLOWED_HOSTS* aldagaian jarri duzun balioa (adibidean gelak.niredomeinua.eus) sartu web nabigatzailean, eta horrek eramango zaitu elkarforti aplikaziora
-* docker-compose.yml fitxategian *traefik.mydomain.eus* zegoen lekuan jarri duzun helbidea sartu nabigatzailean, eta konfiguratu duzun erabiltzaile eta pasahitzarekin (adibidean NireErabiltzailea eta NirePasahitza) traefik interfazean sartuko zara
-
-Posible baduzu docker exekutatzen den zerbitzaria Internet sarean jartzea http/https eskaerei konfiguratu duzun DNS izenari erantzuten (gelak.niredomeinua.eus), Traefik-ek berak letsencrypt ziurtagiria deskargatu eta instalatuko dizu
+* Helbide bereko 8080 portuan (http://gelak.niredomeinua.eus:8080) traefik interfazean sartuko zara
 

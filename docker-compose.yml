@@ -8,63 +8,47 @@ services:
 #    restart: unless-stopped
 #    security_opt:
 #      - no-new-privileges:true
-#    networks:
-#      - proxy
+#    command:
+##      - "--log.level=DEBUG"
+#      - "--api.insecure=true"
+#      - "--providers.docker=true"
+#      - "--providers.docker.exposedbydefault=false"
+#      - "--entrypoints.web.address=:80"
+#      - "--entrypoints.websecure.address=:443"
+#      - "--certificatesresolvers.mytlschallenge.acme.tlschallenge=true"
+#      - "--certificatesresolvers.mytlschallenge.acme.email=myname@mydomain.eus"
+#      - "--certificatesresolvers.mytlschallenge.acme.storage=/letsencrypt/acme.json"
+
 #    ports:
-#      - 80:80
-#      - 443:443
+#      - "80:80"
+#      - "443:443"
+#      - "8080:8080"
 #    volumes:
 #      - /etc/localtime:/etc/localtime:ro
-#      - /var/run/docker.sock:/var/run/docker.sock:ro
-#      - ./traefik/data/traefik.yml:/traefik.yml:ro
-#      - ./traefik/data/acme.json:/acme.json
-#    labels:
-#      - "traefik.enable=true"
-#      - "traefik.http.routers.traefik.entrypoints=http"
-##      - "traefik.http.routers.traefik.rule=Host(`${TRAEFIK_HOST}`)"
-#      - "traefik.http.routers.traefik.rule=Host(`traefik.mydomain.eus`)"
-#      - "traefik.http.middlewares.traefik-auth.basicauth.users=USER:$$apr1$$CNYr26tI$$pcrqE43c3xFqSpEA/GWIm."
-#      - "traefik.http.middlewares.traefik-https-redirect.redirectscheme.scheme=https"
-#      - "traefik.http.routers.traefik.middlewares=traefik-https-redirect"
-#      - "traefik.http.routers.traefik-secure.entrypoints=https"
-##      - "traefik.http.routers.traefik-secure.rule=Host(`${TRAEFIK_HOST}`)"
-#      - "traefik.http.routers.traefik-secure.rule=Host(`traefik.mydomain.eus`)"
-#      - "traefik.http.routers.traefik-secure.middlewares=traefik-auth"
-#      - "traefik.http.routers.traefik-secure.tls=true"
-#      - "traefik.http.routers.traefik-secure.tls.certresolver=http"
-#      - "traefik.http.routers.traefik-secure.service=api@internal"
+#      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+#      - ./letsencrypt:/letsencrypt
 
-  web: # https://medium.com/@containeroo/traefik-2-0-docker-a-simple-step-by-step-guide-e0be0c17cfa5
+  web:
     build: .
     container_name: elkarforti
     restart: unless-stopped
     security_opt:
       - no-new-privileges:true 
     volumes:
-      ##- ./elkarforti:/data/web
+      #- ./elkarforti:/data/web
       - ./keys:/etc/elkarforti
       - ./db:/db
       - /etc/localtime:/etc/localtime:ro
-      - /var/run/docker.sock:/var/run/docker.sock:ro
     env_file: env
     ports:
       - "8000:8000"
-#    networks:
-#      - proxy
 #    labels:
 #      - "traefik.enable=true"
-#      - "traefik.http.routers.elkarforti.entrypoints=http"
-#      - "traefik.http.routers.elkarforti.rule=Host(`${ALLOWED_HOSTS}`)"
-#      - "traefik.http.middlewares.elkarforti-https-redirect.redirectscheme.scheme=https"
-#      - "traefik.http.routers.elkarforti.middlewares=elkarforti-https-redirect"
-#      - "traefik.http.routers.elkarforti-secure.entrypoints=https"
-#      - "traefik.http.routers.elkarforti-secure.rule=Host(`${ALLOWED_HOSTS}`)"
-#      - "traefik.http.routers.elkarforti-secure.tls=true"
-#      - "traefik.http.routers.elkarforti-secure.tls.certresolver=http"
-#      - "traefik.http.routers.elkarforti-secure.service=elkarforti"
-#      - "traefik.http.services.elkarforti.loadbalancer.server.port=8000"
-#      - "traefik.docker.network=proxy"      
-#networks:
-#  proxy:
-#    external: true
-
+#      - "traefik.http.routers.web_router_https.rule=Host(`${ALLOWED_HOSTS}`)"
+#      - "traefik.http.routers.web_router_https.entrypoints=web"
+#      - "traefik.http.routers.web_router_https.entrypoints=websecure"
+#      - "traefik.http.routers.web_router_https.tls.certresolver=mytlschallenge"
+#      # Enable http --> https redirect
+#      - "traefik.http.routers.web_router_http.rule=Host(`${ALLOWED_HOSTS}`)"
+#      - "traefik.http.middlewares.https_redirect.redirectscheme.scheme=https"
+#      - "traefik.http.routers.web_router_http.middlewares=https_redirect"
