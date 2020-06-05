@@ -1,4 +1,4 @@
-Django==3.0.3
+Django==3.0.7
 pyfortiapi==0.2.0
 pycryptodome==3.9.4
 django-auth-ldap==2.1.0
